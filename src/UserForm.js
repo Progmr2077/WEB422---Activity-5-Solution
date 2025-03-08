@@ -1,46 +1,22 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 
 const UserForm = () => {
   const {
     register,
     handleSubmit,
-    setValue,
-    watch,
     formState: { errors },
-  } = useForm({
-    defaultValues: {
-      name: "",
-      id: "",
-      program: "",
-    },
-  });
+  } = useForm();
 
-  // Example: Simulating data fetching (like from an API)
-  useEffect(() => {
-    const fetchedData = {
-      name: "John Doe",
-      id: 12345,
-      program: "Computer Science",
-    };
-
-    // Set form values dynamically
-    Object.keys(fetchedData).forEach((key) => setValue(key, fetchedData[key]));
-  }, [setValue]);
-
-  // Handle form submission (send data as JSON)
   const onSubmit = (data) => {
-    console.log("Submitted Data:", JSON.stringify(data, null, 2));
+    console.log("Submitted Data:", data);
   };
-
-  // Watch a field for live updates
-  const watchName = watch("name");
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} style={styles.form}>
-      <h2>Student Information Form</h2>
+      <h2>User Information Form</h2>
 
-      {/* Name Input */}
+      {/* Name Field */}
       <label style={styles.label}>Name:</label>
       <input
         type="text"
@@ -49,7 +25,7 @@ const UserForm = () => {
       />
       {errors.name && <p style={styles.error}>{errors.name.message}</p>}
 
-      {/* ID Input */}
+      {/* ID Field */}
       <label style={styles.label}>ID:</label>
       <input
         type="number"
@@ -58,7 +34,7 @@ const UserForm = () => {
       />
       {errors.id && <p style={styles.error}>{errors.id.message}</p>}
 
-      {/* Program Dropdown */}
+      {/* Program Field */}
       <label style={styles.label}>Program:</label>
       <select {...register("program", { required: "Program is required" })} style={styles.input}>
         <option value="">Select Program</option>
@@ -68,23 +44,19 @@ const UserForm = () => {
       </select>
       {errors.program && <p style={styles.error}>{errors.program.message}</p>}
 
-      {/* Display watched name value */}
-      <p style={styles.watchText}>Live Preview: {watchName}</p>
-
       {/* Submit Button */}
       <button type="submit" style={styles.button}>Submit</button>
     </form>
   );
 };
 
-// Basic styling
+// Inline CSS Styles
 const styles = {
   form: { display: "flex", flexDirection: "column", maxWidth: "350px", margin: "20px auto" },
   label: { fontWeight: "bold", marginBottom: "5px" },
   input: { padding: "8px", marginBottom: "10px", border: "1px solid #ccc", borderRadius: "5px" },
   button: { padding: "10px", background: "#007bff", color: "#fff", border: "none", borderRadius: "5px", cursor: "pointer" },
   error: { color: "red", fontSize: "12px", marginBottom: "10px" },
-  watchText: { fontStyle: "italic", color: "#555", marginBottom: "10px" },
 };
 
 export default UserForm;
